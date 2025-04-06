@@ -1,0 +1,173 @@
+
+
+<html>
+<head>
+  <title>Playful Interaction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden; /* Prevent scrollbars */
+    }
+    .welcome-section, .interactive-section, .success-section, .confidential-section {
+      display: none; /* Hide all sections by default */
+    }
+    .visible {
+      display: flex; /* Show the active section */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    h1 {
+      font-size: 40px;
+      margin: 10px;
+    }
+    .subheading {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .button-container {
+      display: flex;
+      gap: 20px; /* Space between buttons */
+    }
+    button {
+      width: 150px; /* Slightly larger button */
+      padding: 10px;
+      font-size: 18px;
+      font-weight: 600; /* Slightly less bold */
+      text-transform: lowercase;
+      border: 2px solid black;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      border-radius: 50%;
+      animation: popper 4s ease-out infinite;
+    }
+    @keyframes popper {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(500px) scale(1);
+        opacity: 1;
+      }
+    }
+    .typewriter {
+      font-size: 40px;
+      font-weight: normal; /* Not bold */
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 4px solid black; /* Typewriter cursor effect */
+      animation: typing 6s steps(20, end) forwards, blink 0.75s step-end infinite; /* Typing and blinking effect */
+      width: 16ch; /* Fit the exact character length of "i miss you angelica" */
+    }
+    @keyframes typing {
+      from {
+        width: 0; /* Start typing from nothing */
+      }
+      to {
+        width: 16ch; /* Stop typing after the last letter */
+      }
+    }
+    @keyframes blink {
+      50% {
+        border-color: black; /* Cursor blinks on and off */
+      }
+      100% {
+        border-color: transparent; /* Cursor disappears momentarily */
+      }
+    }
+  </style>
+  <script>
+    // Function to show the interactive section
+    function showInteractivePage() {
+      document.querySelector('.welcome-section').classList.remove('visible');
+      document.querySelector('.interactive-section').classList.add('visible');
+    }
+
+    // Function to show the success section with confetti
+    function showSuccessPage() {
+      document.querySelector('.interactive-section').classList.remove('visible');
+      document.querySelector('.success-section').classList.add('visible');
+      for (let i = 0; i < 100; i++) {
+        createConfetti();
+      }
+    }
+
+    // Function to show the confidential section and remove party poppers
+    function showConfidentialPage() {
+      document.querySelector('.success-section').classList.remove('visible');
+      document.querySelector('.confidential-section').classList.add('visible');
+      
+      // Remove all confetti elements
+      const confettiElements = document.querySelectorAll('.confetti');
+      confettiElements.forEach(confetti => confetti.remove());
+    }
+
+    // Function to move the "No" button randomly
+    function moveButton() {
+      const randomX = Math.random() * window.innerWidth;
+      const randomY = Math.random() * window.innerHeight;
+      const button = document.querySelector('.no-button');
+      button.style.position = 'absolute';
+      button.style.left = randomX + 'px';
+      button.style.top = randomY + 'px';
+    }
+
+    // Function to create confetti elements
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.backgroundColor = randomColor();
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.top = Math.random() * window.innerHeight + 'px';
+      confetti.style.animationDuration = 1 + Math.random() * 3 + 's';
+      document.body.appendChild(confetti);
+    }
+
+    // Function to pick a random color for confetti
+    function randomColor() {
+      const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+</head>
+<body>
+  <!-- Welcome Section -->
+  <div class="welcome-section visible">
+    <h1>survey lang</h1>
+    <p class="subheading">for thesis purposes</p>
+    <button onclick="showInteractivePage()">start</button>
+  </div>
+
+  <!-- Interactive Section -->
+  <div class="interactive-section">
+    <h1>are you going to talk to me</h1>
+    <div class="button-container">
+      <button onclick="showSuccessPage()">yes</button>
+      <button onclick="moveButton()" class="no-button">no</button>
+    </div>
+  </div>
+
+  <!-- Success Section -->
+  <div class="success-section">
+    <h1 style="font-size: 50px; font-weight: bold;">YEHEY thesis defended</h1>
+    <button onclick="showConfidentialPage()">confidential</button>
+  </div>
+
+  <!-- Confidential Section -->
+  <div class="confidential-section">
+    <h1 class="typewriter">i miss you angelica</h1>
+  </div>
+</body>
+</html>
